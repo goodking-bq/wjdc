@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本问卷调查</title>
+    <link href="/static/bootstrap-4.6.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <link href="/static/bootstrap-table-1.19.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/static/select2-4.0.13/css/select2.min.css" rel="stylesheet">
+    <link href="/static/select2-4.0.13/css/select2-bootstrap4.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <p></p>
+    <h4 class="text-center text-info">基本信息调查</h4>
+    <div class="card ">
+        <h5 class="card-header text-center">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/index.html">服列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/server.html">服务器列表</a>
+                </li>
+            </ul>
+        </h5>
+        <div class="card-body">
+            <div class="card-title text-center">
+                <form class="form-inline">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label class="sr-only" for="number">服编号</label>
+                            <input class="form-control mb-2" id="number" placeholder="服编号" type="text">
+                        </div>
+                        <div class="col-auto">
+                            <label class="sr-only" for="ip">所在服务器</label>
+                            <input class="form-control mb-2" id="ip" placeholder="所在服务器" type="text">
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-inline mb-2 ">
+                                <label class="sr-only" for="platform">平台</label>
+                                <select class="custom-select my-5 mr-sm-5" id="platform" name="platform">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <label class="sr-only" for="version">版本</label>
+                            <input class="form-control mb-2" id="version" placeholder="版本" type="text">
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-inline mb-2">
+                                <label class="sr-only" for="status">选择状态</label>
+                                <select class="custom-select my-1 mr-sm-2" id="status" name="status">
+                                    <option selected value="">选择状态...</option>
+                                    <option value="running">运行中</option>
+                                    <option value="stopped">已停止</option>
+                                    <option value="error">异常</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary mb-2" id="searchBtn"
+                                    type="button">搜索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover " id="table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery-3.6.0.min.js"></script>
+<script src="/static/bootstrap-4.6.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/bootstrap-table-1.19.1/bootstrap-table.min.js"></script>
+<script src="/static/bootstrap-table-1.19.1/locals/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/select2-4.0.13/js/select2.full.min.js"></script>
+<script>
+	$("#searchBtn").click(function () {
+		//点击查询是 使用刷新 处理刷新参数
+		$('#table').bootstrapTable('refresh');
+	});
+
+	function port(value, row) {
+		let portID = JSON.parse(row["config_kwargs"])["port_ID"]
+		return 5000 + parseInt(portID)
+	}
+
+	$('#table').bootstrapTable({
+		url: '/services',
+		pagination: true,
+		showPaginationSwitch: false,
+		pageSize: 20,
+		pageList: [20, 50, 100, "all"],
+		smartDisplay: true,
+		striped: true,//隔行变色
+		data_local: "zh-US",//表格汉化
+		search: false,
+		sidePagination: "server",
+		queryParams: function (params) {
+			return {
+				limit: params.limit,
+				offset: params.offset,
+				sort: params.sort,
+				order: params.order,
+				number: $("#number").val(),
+				platform: $("#platform").val(),
+				version: $("#version").val(),
+				status: $("#status").val(),
+				ip: $("#ip").val(),
+			}
+		},
+		columns: [{
+			field: 'number',
+			title: '服编号',
+			sortable: true,
+		}, {
+			field: 'port',
+			title: '端口号',
+			formatter: port
+		}, {
+			field: 'platform.name',
+			title: '平台',
+		}, {
+			field: 'server.ip',
+			title: '所在服务器',
+		}, {
+			field: 'status',
+			title: '状态',
+			sortable: true,
+			cellStyle: function (value, row, index) {
+				switch (value) {
+					case "running":
+						return {classes: "bg-success"}
+					case "error":
+						return {classes: "bg-danger"}
+					default:
+						return {}
+				}
+			}
+		}, {
+			field: 'version',
+			title: '版本号',
+			sortable: true,
+		}, {
+			field: 'online',
+			title: '在线人数',
+			sortable: true,
+			cellStyle: function (value, row, index) {
+				console.log(value)
+				if (value > 1500) {
+					return {classes: "bg-danger"}
+				}
+				return {}
+			}
+		}, {
+			field: 'merged_services',
+			title: '从服列表',
+		},
+
+		]
+	})
+
+	$('#platform').select2({
+		theme: 'bootstrap4',
+		placeholder: '选择平台...',
+		maximumSelectionLength: 2,
+		width: '100%',
+		dropdownAutoWidth: true,
+		allowClear: true,
+		ajax: {
+			url: '/platforms',
+			dataType: 'json',
+			processResults: function (data) {
+
+				return {
+					results: data.map(function (p) {
+						return {id: p.id, text: p.name}
+					})
+				};
+			}
+		}
+	});
+
+</script>
+</body>
+</html>
