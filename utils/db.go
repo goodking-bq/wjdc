@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/goodking-bq/wjdc/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -46,7 +47,12 @@ func InitDB(cfg MysqlConfig) {
 
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	sqlDB.SetConnMaxLifetime(time.Hour)
-
+	_ = db.AutoMigrate(models.Questionnaire{},
+		models.Question{},
+		models.QuestionOption{},
+		models.Answer{},
+		models.AnswerDetail{},
+	)
 	DB = db
 
 }

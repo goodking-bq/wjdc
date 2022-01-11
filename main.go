@@ -7,8 +7,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"gitlab.kube.2xi.com/golden/ynds/utils"
-	"gitlab.kube.2xi.com/golden/ynds/web"
+	"github.com/gofiber/template/html"
+	"github.com/goodking-bq/wjdc/utils"
+	"github.com/goodking-bq/wjdc/web"
 	"log"
 	"net/http"
 	"os"
@@ -17,7 +18,8 @@ import (
 )
 
 // Embed a directory
-//go:embed ui/*.html ui/static/bootstrap-4.6.1-dist/css/bootstrap.min.css
+////go:embed ui/*.html
+//go:embed ui/static/bootstrap-4.6.1-dist/css/bootstrap.min.css
 //go:embed ui/static/fontawesome-free-5.15.4-web/css/all.min.css
 //go:embed ui/static/bootstrap-table-1.19.1/bootstrap-table.min.css
 //go:embed ui/static/jquery-3.6.0.min.js
@@ -31,17 +33,22 @@ import (
 //go:embed ui/static/bootstrap-4.6.1-dist/js/bootstrap.min.js.map
 var embedDirStatic embed.FS
 
+//go:embed ui/*.tpl
+var indexTpl embed.FS
+
 func main() {
 	utils.InitDB(utils.MysqlConfig{
 		Host:     utils.GetEnvString("DB_HOST", "172.0.4.101"),
 		Port:     "3306",
-		DB:       utils.GetEnvString("DB_NAME", "yunwei"),
+		DB:       utils.GetEnvString("DB_NAME", "wjdc"),
 		User:     utils.GetEnvString("DB_USER", "root"),
 		Password: utils.GetEnvString("DB_PASSWORD", "root"),
 		Options:  "charset=utf8&parseTime=true",
 	})
-	// Pass engine to Fiber's Views Engine
-	app := fiber.New()
+
+	engine := html.NewFileSystem(http.FS(indexTpl), ".tpl")
+	app := fiber.New(
+		fiber.Config{Views: engine})
 	app.Use(
 		logger.New(logger.Config{
 			Format:     "[${time}] ${status} - ${latency} ${method} ${url}\n",
@@ -50,11 +57,9 @@ func main() {
 		}),
 		compress.New(compress.Config{Level: compress.LevelBestSpeed}))
 	h := new(web.Handlers)
-	//app.Get("/home", h.Index)
-	app.Get("/services", h.ServiceList)
-	app.Get("/update_service", h.UpdateService)
-	app.Get("/servers", h.ServerList)
-	app.Get("/platforms", h.PlatformList)
+	app.Get("/home", h.Index)
+	app.Post("/home", h.SaveAnswer)
+	app.Get("/csv", h.Csv)
 	app.Use("/", filesystem.New(filesystem.Config{
 		Root:       http.FS(embedDirStatic),
 		PathPrefix: "ui",
@@ -62,7 +67,7 @@ func main() {
 	}))
 	app.Use(
 		func(c *fiber.Ctx) error {
-			return c.Redirect("/index.html")
+			return c.Redirect("/home")
 		})
 	// Listen from a different goroutine
 	go func() {

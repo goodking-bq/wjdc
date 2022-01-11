@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本问卷调查</title>
+    <link href="/static/bootstrap-4.6.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <link href="/static/bootstrap-table-1.19.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/static/select2-4.0.13/css/select2.min.css" rel="stylesheet">
+    <link href="/static/select2-4.0.13/css/select2-bootstrap4.min.css" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+</head>
+<body>
+<div class="container">
+    <div class="card ">
+        <div class="card-body border-white">
+            <h5 class="card-title text-center text-primary">基本信息调查</h5>
+            <h6 class="card-subtitle  text-muted text-center">
+                我们会对所填写的内容做到绝对保密，不会对任何其他单位或者非相关工作员工泄漏以下信息。对自己承诺负责。</h6>
+            <br/>
+            <div class="card-text">
+                <form>
+
+                    <div class="form-group">
+                        <label for="name"><strong class="text-danger">*</strong> 您的姓名: </label>
+                        <input class="form-control" id="name" name="name" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="company-name"><strong class="text-danger">*</strong> 您所在的公司名称: </label>
+                        <input class="form-control" id="company-name" name="company-name" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><strong class="text-danger">*</strong> 您的年龄: </label>
+                        <div class="form-check">
+                            <input checked class="form-check-input" id="old1" name="old"
+                                   type="radio" value="25岁以下">
+                            <label class="form-check-label" for="old1">
+                                25岁以下
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="old2" name="old" type="radio"
+                                   value="26-30岁">
+                            <label class="form-check-label" for="old2">
+                                26-30岁
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="old3" name="old" type="radio"
+                                   value="31-35岁">
+                            <label class="form-check-label" for="old3">
+                                31-35岁
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="old4" name="old" type="radio"
+                                   value="35岁以上">
+                            <label class="form-check-label" for="old4">
+                                35岁以上
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="children"><strong class="text-danger">*</strong> 您的子女个数: </label>
+                        <select class="custom-select" id="children">
+                            <option disabled selected>请选择</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group " hidden>
+                        <label for="children-sex"><strong class="text-danger">*</strong> 他们分别是什么性别: </label>
+                        <input class="form-control" data-required="{{}}" id="children-sex" name="children-sex"
+                               type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="position"><strong class="text-danger">*</strong> 您的职位是: </label>
+                        <div class="form-check" id="position">
+                            <input class="form-check-input" id="ceo" name="position"
+                                   type="radio" value="ceo">
+                            <label class="form-check-label" for="ceo">
+                                CEO
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="cto" name="position" type="radio"
+                                   value="cto">
+                            <label class="form-check-label" for="cto">
+                                CTO
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="vp" name="position" type="radio"
+                                   value="vp">
+                            <label class="form-check-label" for="vp">
+                                VP
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="yw" name="position" type="radio"
+                                   value="运维总监">
+                            <label class="form-check-label" for="yw">
+                                运维总监
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numbers"><strong class="text-danger">*</strong> 您的部门人数: </label>
+                        <div class="form-check" id="numbers">
+                            <input class="form-check-input" id="n30" name="numbers"
+                                   type="radio" value="30人以下">
+                            <label class="form-check-label" for="n30">
+                                30人以下
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="n40" name="numbers" type="radio"
+                                   value="30-80人">
+                            <label class="form-check-label" for="n40">
+                                30-80人
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="n80" name="numbers" type="radio"
+                                   value="80-150人">
+                            <label class="form-check-label" for="n80">
+                                80-150人
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="n150" name="numbers" type="radio"
+                                   value="150人以上">
+                            <label class="form-check-label" for="n150">
+                                150人以上
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cash-running"><strong class="text-danger">*</strong> 您公司的流水: </label>
+                        <div class="form-check " id="cash-running">
+                            <input class="form-check-input" id="r1" name="cash-running"
+                                   type="radio" value="1亿以下">
+                            <label class="form-check-label" for="r1">
+                                1亿以下
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="r2" name="cash-running" type="radio"
+                                   value="1-5亿">
+                            <label class="form-check-label" for="r2">
+                                1-5亿
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="r3" name="cash-running" type="radio"
+                                   value="5-10亿">
+                            <label class="form-check-label" for="r3">
+                                5-10亿
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="r4" name="cash-running" type="radio"
+                                   value="10-50亿">
+                            <label class="form-check-label" for="r4">
+                                10-50亿
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hd"><strong class="text-danger">*</strong> 您希望我们提供什么类型的活动: </label>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                最热门的话题和技术交流大会
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                        <div class="form-check " id="hd">
+                            <input class="form-check-input" id="hd1" name="hd"
+                                   type="checkbox" value="行业闭门会议交流">
+                            <label class="form-check-label" for="hd1">
+                                行业闭门会议交流
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery-3.6.0.min.js"></script>
+<script src="/static/bootstrap-4.6.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/bootstrap-table-1.19.1/bootstrap-table.min.js"></script>
+<script src="/static/bootstrap-table-1.19.1/locals/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/select2-4.0.13/js/select2.full.min.js"></script>
+<script>
+	$("#searchBtn").click(function () {
+		//点击查询是 使用刷新 处理刷新参数
+		$('#table').bootstrapTable('refresh');
+	});
+
+	function port(value, row) {
+		let portID = JSON.parse(row["config_kwargs"])["port_ID"]
+		return 5000 + parseInt(portID)
+	}
+
+	$('#table').bootstrapTable({
+		url: '/services',
+		pagination: true,
+		showPaginationSwitch: false,
+		pageSize: 20,
+		pageList: [20, 50, 100, "all"],
+		smartDisplay: true,
+		striped: true,//隔行变色
+		data_local: "zh-US",//表格汉化
+		search: false,
+		sidePagination: "server",
+		queryParams: function (params) {
+			return {
+				limit: params.limit,
+				offset: params.offset,
+				sort: params.sort,
+				order: params.order,
+				number: $("#number").val(),
+				platform: $("#platform").val(),
+				version: $("#version").val(),
+				status: $("#status").val(),
+				ip: $("#ip").val(),
+			}
+		},
+		columns: [{
+			field: 'number',
+			title: '服编号',
+			sortable: true,
+		}, {
+			field: 'port',
+			title: '端口号',
+			formatter: port
+		}, {
+			field: 'platform.name',
+			title: '平台',
+		}, {
+			field: 'server.ip',
+			title: '所在服务器',
+		}, {
+			field: 'status',
+			title: '状态',
+			sortable: true,
+			cellStyle: function (value, row, index) {
+				switch (value) {
+					case "running":
+						return {classes: "bg-success"}
+					case "error":
+						return {classes: "bg-danger"}
+					default:
+						return {}
+				}
+			}
+		}, {
+			field: 'version',
+			title: '版本号',
+			sortable: true,
+		}, {
+			field: 'online',
+			title: '在线人数',
+			sortable: true,
+			cellStyle: function (value, row, index) {
+				console.log(value)
+				if (value > 1500) {
+					return {classes: "bg-danger"}
+				}
+				return {}
+			}
+		}, {
+			field: 'merged_services',
+			title: '从服列表',
+		},
+
+		]
+	})
+
+	$('#platform').select2({
+		theme: 'bootstrap4',
+		placeholder: '选择平台...',
+		maximumSelectionLength: 2,
+		width: '100%',
+		dropdownAutoWidth: true,
+		allowClear: true,
+		ajax: {
+			url: '/platforms',
+			dataType: 'json',
+			processResults: function (data) {
+
+				return {
+					results: data.map(function (p) {
+						return {id: p.id, text: p.name}
+					})
+				};
+			}
+		}
+	});
+
+</script>
+</body>
+</html>
